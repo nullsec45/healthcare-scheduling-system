@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { GraphQLJSONObject } from 'graphql-scalars'; // Opsional jika ingin data bebas
+import { GraphQLJSONObject, GraphQLJSON } from 'graphql-scalars'; // Opsional jika ingin data bebas
 
 @ObjectType()
 export class ResponseDataDto {
@@ -13,7 +13,7 @@ export class ResponseDataDto {
   message!: string;
 
   // Menggunakan JSON object jika datanya dinamis
-  @Field(() => GraphQLJSONObject, { nullable: true })
+  @Field(() => GraphQLJSON, { nullable: true })
   data?: any;
 }
 
