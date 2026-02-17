@@ -1,38 +1,40 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CustomerService } from './customer.service';
-import { Customer } from './entities/customer.entity';
+import { Customer } from './entities/customer.entity'; 
 import { CreateCustomerInput } from './dto/create-customer.input';
 import { UpdateCustomerInput } from './dto/update-customer.input';
-
+import { ResponseDataDto } from 'src/dto/response.dto';
 @Resolver(() => Customer)
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
 
-  @Mutation(() => Customer)
-  createCustomer(@Args('createCustomerInput') createCustomerInput: CreateCustomerInput) {
-    return this.customerService.create(createCustomerInput);
+  @Mutation(() => ResponseDataDto, { name: 'createCustomer' })
+  async createCustomer(
+    @Args('createCustomerInput') createCustomerInput: CreateCustomerInput,
+  ): Promise<ResponseDataDto> {
+    return await this.customerService.create(createCustomerInput);
   }
 
-  @Query(() => [Customer], { name: 'customer' })
-  findAll() {
-    return this.customerService.findAll();
+  @Query(() => ResponseDataDto, { name: 'findAllCustomer' })
+  async findAll(): Promise<ResponseDataDto> {
+    return await this.customerService.findAll();
   }
 
-  @Query(() => Customer, { name: 'customer' })
-  findOne(@Args('id', { type: () => String }) id: number) {
-    return this.customerService.findOne(String(id));
+  @Query(() => ResponseDataDto, { name: 'findOneCustomer' })
+  async findOne(@Args('id', { type: () => String }) id: string): Promise<ResponseDataDto> {
+    return await this.customerService.findOne(id);
   }
 
-  @Mutation(() => Customer)
-  updateCustomer(@Args('updateCustomerInput') updateCustomerInput: UpdateCustomerInput) {
-    if (updateCustomerInput.id === undefined) {
-      throw new Error('Customer id is required for update');
+  @Mutation(() => ResponseDataDto, { name: 'updateCustomer' })
+  async updateCustomer(
+    @Args('id', { type: () => String }) id: string,
+    @Args('updateCustomerInput') updateCustomerInput: UpdateCustomerInput,
+  ): Promise<ResponseDataDto> {
+    return await this.customerService.update(id, updateCustomerInput);
+  }
+
+  @Mutation(() => ResponseDataDto, { name: 'removeCustomer' })
+    async removeCustomer(@Args('id', { type: () => String }) id: string): Promise<ResponseDataDto> {
+      return await this.customerService.remove(id);
     }
-    return this.customerService.update(updateCustomerInput.id, updateCustomerInput);
-  }
-
-  @Mutation(() => Customer)
-  removeCustomer(@Args('id', { type: () => String }) id: number) {
-    return this.customerService.remove(String(id));
-  }
 }
