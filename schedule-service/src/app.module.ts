@@ -7,6 +7,7 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { CustomerModule } from './customer/customer.module';
 import { CommonModule } from './common/common.module';
+import { DoctorModule } from './doctor/doctor.module';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { CommonModule } from './common/common.module';
       },
     }),
     
-    CustomerModule, CommonModule
+    CustomerModule, CommonModule, DoctorModule
   ],
   controllers: [AppController],
   providers: [AppService],
