@@ -30,12 +30,17 @@ scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publicati
 type Query {
   findAllCustomer: ResponseDataDto!
   findOneCustomer(id: String!): ResponseDataDto!
+  findAllDoctor: ResponseDataDto!
+  findOneDoctor(id: String!): ResponseDataDto!
 }
 
 type Mutation {
   createCustomer(createCustomerInput: CreateCustomerInput!): ResponseDataDto!
   updateCustomer(id: String!, updateCustomerInput: UpdateCustomerInput!): ResponseDataDto!
   removeCustomer(id: String!): ResponseDataDto!
+  createDoctor(createDoctorInput: CreateDoctorInput!): ResponseDataDto!
+  updateDoctor(id: String!, updateDoctorInput: UpdateDoctorInput!): ResponseDataDto!
+  removeDoctor(id: String!): ResponseDataDto!
 }
 
 input CreateCustomerInput {
@@ -46,4 +51,12 @@ input CreateCustomerInput {
 input UpdateCustomerInput {
   name: String
   email: String = ""
+}
+
+input CreateDoctorInput {
+  name: String!
+}
+
+input UpdateDoctorInput {
+  name: String
 }
